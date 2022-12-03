@@ -23,6 +23,24 @@ Resources:
       StageName: prod
       Name: My Lambda springboot GraalVM Sample API
 
+  GetProductContollerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: software.amazonaws.example.product.product.handler.MvcProductFunction::handleRequest
+      Environment:
+        Variables:
+          SPRING_CLOUD_FUNCTION_DEFINITION: getProductContollerFunction
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ProductsTable
+      Events:
+        GetRequestById:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /controller/product/{proxy+}/
+            Method: ANY
+
   GetProductByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
