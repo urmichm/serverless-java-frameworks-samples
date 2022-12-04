@@ -8,13 +8,10 @@ Globals:
   Function:
     Tracing: Active
     CodeUri: target/function-native-zip.zip
-    Handler: com.amazonaws.serverless.sample.springboot2.StreamLambdaHandler::handleRequest
+    Handler: software.amazonaws.example.product.product.handler.MvcProductFunction::handleRequest
     Runtime: provided
-    Timeout: 30
+    Timeout: 15
     MemorySize: 1024
-    Environment:
-      Variables:
-        PRODUCT_TABLE_NAME: !Ref ProductsTable
 
 Resources:
   MyApi:
@@ -31,10 +28,10 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref MyApi
-            Path: /controller/{proxy+}/
+            Path: /{proxy+}
             Method: ANY
 
 Outputs:
   ApiEndpoint:
     Description: "API Gateway endpoint URL for Prod stage for Springboot sample function"
-    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/prod/products"
+    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/prod/controller/"

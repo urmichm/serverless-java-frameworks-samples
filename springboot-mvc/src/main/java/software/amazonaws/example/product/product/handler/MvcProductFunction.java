@@ -20,6 +20,7 @@ public class MvcProductFunction implements RequestStreamHandler {
   public static SpringBootLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> handler;
   static {
     try {
+      System.out.println("MvcProductFunction: static block");
       handler = SpringBootLambdaContainerHandler.getAwsProxyHandler(SpringBootSampleApplication.class);
     } catch (ContainerInitializationException e) {
       // if we fail here. We re-throw the exception to force another cold start
@@ -31,6 +32,8 @@ public class MvcProductFunction implements RequestStreamHandler {
   @Override
   public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context)
     throws IOException {
+    System.out.println("MvcProductFunction: handleRequest() block");
+
     handler.proxyStream(inputStream, outputStream, context);
   }
 }
